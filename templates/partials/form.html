@@ -1,5 +1,6 @@
 {{ block "form" . }}
-<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md" hx-post="/definition">
+<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md" hx-swap="outerHtml"
+    hx-target="#definition-list" hx-post="/definition">
     <p class="text-center text-xl">Add a word</p>
 
     <div class="flex flex-col gap-3">

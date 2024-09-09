@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MyInterpretation/handlers"
 	"MyInterpretation/models"
 	"MyInterpretation/views"
 	"context"
@@ -46,34 +47,10 @@ func main() {
 	// app.Static("/styles/", "styles")
 
 	app.GET("/", func(cntx echo.Context) error {
-		rows, err := dbPool.Query(context.Background(), "SELECT * FROM Definition JOIN Word ON Word.id = Definition.wordId")
-
-		if err != nil {
-			return cntx.Render(500, "index", 1)
-		}
-
-		defer rows.Close()
-
-		var definitions []models.Definition
-
-		for rows.Next() {
-			var definition models.Definition
-			var word models.Word
-
-			if err := rows.Scan(&definition.ID, &definition.Text, &definition.WordId, &word.ID, &word.Text); err != nil {
-				return cntx.Render(400, "index", 1)
-			}
-
-			definition.Word = word
-
-			definitions = append(definitions, definition)
-		}
 
 		var page models.PageData
 
-		page.Definitions = definitions
-
-		log.Print(page)
+		page.Definitions = handlers.GetDefinitionsWithWord(cntx, dbPool)
 
 		return cntx.Render(200, "index", page)
 	})
@@ -86,11 +63,14 @@ func main() {
 			return cntx.Render(400, "footer", 1)
 		}
 
-		if err := dbPool.QueryRow(context.Background(), "INSERT INTO Definition (text, wordId) Values ($1, $2)", text, wordId); err != nil {
+		if _, err := dbPool.Exec(context.Background(), "INSERT INTO Definition (text, wordId) Values ($1, $2)", text, wordId); err != nil {
 			return cntx.Render(404, "footer", 1)
 		}
 
-		return cntx.Render(200, "footer", 1)
+		definitions := handlers.GetDefinitionsWithWord(cntx, dbPool)
+
+		log.Print(definitions)
+		return cntx.Render(200, "definition-list", definitions)
 	})
 
 	app.Logger.Fatal(app.Start(":8080"))
