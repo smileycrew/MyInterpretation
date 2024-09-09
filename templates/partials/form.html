@@ -1,17 +1,21 @@
 {{ block "form" . }}
-<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md">
+<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md" hx-post="/definition">
     <p class="text-center text-xl">Add a word</p>
 
     <div class="flex flex-col gap-3">
         <label class="text-black/60">Word</label>
-        <input class="bg-gray-500/10 border focus:bg-gray-500/5 focus:outline-none p-3 rounded-md transition"
-            type="text" />
+        <select name="wordId">
+            <option>Select a word</option>
+            {{ range .Definitions }}
+            <option value="{{ .Word.ID }}">{{ .Word.Text }}</option>
+            {{ end }}
+        </select>
     </div>
 
     <div class="flex flex-col gap-3">
         <label class="text-black/60">Definition</label>
         <textarea class="bg-gray-500/10 border focus:bg-gray-500/5 focus:outline-none p-3 rounded-md transition"
-            type="text"></textarea>
+            name="text" type="text"></textarea>
     </div>
 
     <button class="bg-blue-500 border hover:bg-blue-500/80 p-3 rounded-md text-white/90">Submit</button>

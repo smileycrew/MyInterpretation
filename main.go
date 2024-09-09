@@ -4,12 +4,14 @@ import (
 	"MyInterpretation/models"
 	"MyInterpretation/views"
 	"context"
+	"log"
+	"os"
+	"strconv"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"log"
-	"os"
 )
 
 func main() {
@@ -67,7 +69,28 @@ func main() {
 			definitions = append(definitions, definition)
 		}
 
-		return cntx.Render(200, "index", definitions)
+		var page models.PageData
+
+		page.Definitions = definitions
+
+		log.Print(page)
+
+		return cntx.Render(200, "index", page)
+	})
+
+	app.POST("/definition", func(cntx echo.Context) error {
+		text := cntx.FormValue("text")
+		wordId, err := strconv.Atoi(cntx.FormValue("wordId"))
+
+		if text == "" || err != nil {
+			return cntx.Render(400, "footer", 1)
+		}
+
+		if err := dbPool.QueryRow(context.Background(), "INSERT INTO Definition (text, wordId) Values ($1, $2)", text, wordId); err != nil {
+			return cntx.Render(404, "footer", 1)
+		}
+
+		return cntx.Render(200, "footer", 1)
 	})
 
 	app.Logger.Fatal(app.Start(":8080"))
