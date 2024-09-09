@@ -1,0 +1,26 @@
+{{ block "index" . }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Style sheet commented out because we are using tailwindcss -->
+    <!-- <link href="/styles/index.css" rel="stylesheet"> -->
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.2"
+        integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+        crossorigin="anonymous"></script>
+    <title>My Interpretation</title>
+</head>
+
+<body class="flex flex-col h-screen">
+    {{ template "header" . }}
+
+    {{ template "main" . }}
+
+    {{ template "footer" . }}
+</body>
+
+</html>
+{{ end }}

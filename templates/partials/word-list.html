@@ -1,0 +1,10 @@
+{{ block "word-list" . }}
+<ul id="word-list">
+    {{ range . }}
+    <li>
+        <p>{{ .Word.Text }}</p>
+        <p>{{ .Text }}</p>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}

@@ -1,0 +1,10 @@
+{{ block "main" . }}
+<main class="flex flex-col h-full">
+    <section class="self-center">
+        {{ template "form" . }}
+    </section>
+    <aside>
+        {{ template "word-list" . }}
+    </aside>
+</main>
+{{ end }}
