@@ -1,10 +1,9 @@
 {{ block "definition-list" . }}
-<ul id="definition-list">
+<ul class="space-y-3" id="definition-list">
     {{ range . }}
-    <li>
-        <p>{{ .Word.Text }}</p>
-        <p>{{ .Text }}</p>
-    </li>
+
+    {{ template "definition-list-item" . }}
+
     {{ end }}
 </ul>
 {{ end }}

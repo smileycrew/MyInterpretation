@@ -1,14 +1,14 @@
 {{ block "form" . }}
-<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md" hx-swap="outerHtml"
+<form class="border flex flex-col gap-5 min-w-[400px] p-5 rounded-lg shadow-md" hx-swap="afterbegin"
     hx-target="#definition-list" hx-post="/definition">
     <p class="text-center text-xl">Add a word</p>
 
     <div class="flex flex-col gap-3">
         <label class="text-black/60">Word</label>
-        <select name="wordId">
+        <select class="border p-3 rounded-md" name="wordId">
             <option>Select a word</option>
-            {{ range .Definitions }}
-            <option value="{{ .Word.ID }}">{{ .Word.Text }}</option>
+            {{ range .Words }}
+            <option value="{{ .ID }}">{{ .Text }}</option>
             {{ end }}
         </select>
     </div>

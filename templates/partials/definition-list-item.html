@@ -1,0 +1,9 @@
+{{ block "definition-list-item" . }}
+<li class="flex gap-3 items-center" id="definition-{{ .ID }}">
+    <p class="font-medium">{{ .Word.Text }}</p>
+    <p class="text-black/60">{{ .Text }}</p>
+
+    <button class="bg-red-500 hover:bg-red-500/80 p-3 rounded-md text-white/90 transition"
+        hx-delete="/definition/{{ .ID }}" hx-swap="outerHTML" hx-target="#definition-{{ .ID }}">Delete</button>
+</li>
+{{ end }}

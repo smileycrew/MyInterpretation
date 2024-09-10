@@ -8,6 +8,17 @@ import (
 	"log"
 )
 
+func DeleteDefinitionById(cntx echo.Context, dbPool *pgxpool.Pool, definitionId int) {
+	rows, err := dbPool.Exec(context.Background(), "DELETE FROM Definition WHERE id = $1", definitionId)
+
+	if err != nil {
+		log.Fatalf("Could not execute delete from database: %v", err)
+	}
+
+	log.Print("//////////")
+	log.Print(rows)
+}
+
 func GetDefinitionsWithWord(cntx echo.Context, dbPool *pgxpool.Pool) []models.Definition {
 	rows, err := dbPool.Query(context.Background(), "SELECT * FROM Definition JOIN Word ON Word.id = Definition.wordId")
 
